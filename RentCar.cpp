@@ -4,9 +4,142 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <windows.h>
+#include <fstream>
 using namespace std;
 
 
+
+//Structs
+struct Clientes
+{
+	char CodigoCliente[5];	
+	char Nombre[25];
+	char Apellido[30];
+	char Cedula[12];
+	char Telefono[15];
+	char FechaNacimiento[12];
+	char Direccion[60];
+};
+
+struct Autos
+{
+	int Codigo;
+	char Matricula[7];
+	char Modelo[30];
+	char Marca[20];
+	char Estado[15];
+};
+
+struct Alquiler
+{
+	int CodigoAlquiler;
+	char CedulaCliente[11];
+	char FechaAlquiler[10];
+	char Estado[15];
+};
+
+struct DetalleAlquiler
+{
+	int CodigoDetalle;
+	int CodigoAlquiler;
+	char MatriculaVehiculo[7];
+	float PrecioPorDia;
+	int DiasAlquiler;
+	int DiasAtraso;
+};
+
+
+
+//Modificar cliente
+void modificarClientes()
+{
+	
+}
+
+
+//Consulta de clientes
+void consultarClientes()
+{
+	system("cls");
+	
+	Clientes cli;
+	ifstream archivo;
+	
+	archivo.open("clientes.txt");
+	archivo>>cli.CodigoCliente;
+    archivo>>cli.Nombre;
+    archivo>>cli.Apellido;
+    archivo>>cli.Cedula;
+    archivo>>cli.Telefono;
+    archivo>>cli.FechaNacimiento;
+    archivo>>cli.Direccion;
+    
+    while(!archivo.eof())
+    {
+        cout << "Codigo: " << cli.CodigoCliente << endl;
+        cout << "Nombre: " << cli.Nombre << endl;
+        cout << "Apellido: " << cli.Apellido << endl;
+    	cout << "Cedula: " << cli.Cedula << endl;
+    	cout << "Telefono: " << cli.Telefono << endl;
+    	cout << "FechaNacimiento: " << cli.FechaNacimiento << endl;
+    	cout << "Direccion: " << cli.Direccion << endl << endl;
+                            
+		archivo>>cli.CodigoCliente;
+    	archivo>>cli.Nombre;
+    	archivo>>cli.Apellido;
+    	archivo>>cli.Cedula;
+    	archivo>>cli.Telefono;
+    	archivo>>cli.FechaNacimiento;
+    	archivo>>cli.Direccion;
+    }
+    
+	archivo.close();
+	getch();
+}
+
+
+//Registro de clientes
+void registrarClientes()
+{
+	system("cls");
+	
+	ofstream archivo;
+	Clientes cli;
+	
+	
+	cout << "Introduzca el codigo: ";
+	cin >> cli.CodigoCliente;
+	cout << "Introduzca el Nombre: ";
+	cin >> cli.Nombre;
+	cout << "Introduzca el Apellido: ";
+	cin >> cli.Apellido;
+	cout << "Introduzca la cedula: ";
+	cin >> cli.Cedula;
+	cout << "Introduzca el telefono: ";
+	cin >> cli.Telefono;
+	cout << "Introduzca la fecha de Nacimiento: ";
+	cin >> cli.FechaNacimiento;
+	cout << "Introduzca la direccion: ";
+	cin >> cli.Direccion;
+	
+	
+	archivo.open("clientes.txt", ios::out | ios::app);
+	archivo<<cli.CodigoCliente;
+	archivo<<endl;
+    archivo<<cli.Nombre;
+    archivo<<endl;
+    archivo<<cli.Apellido;
+    archivo<<endl;
+    archivo<<cli.Cedula;
+    archivo<<endl;
+	archivo<<cli.Telefono;
+	archivo<<endl;
+	archivo<<cli.FechaNacimiento;
+	archivo<<endl;
+	archivo<<cli.Direccion;
+	archivo<<endl;
+	archivo.close();
+}
 
 
 //Funcion para manejo de coordenadas en la consola
@@ -16,7 +149,6 @@ void gotoxy(int x, int y){
     c.Y = y;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),c);
 }
-
 
 
 //Menu clientes
@@ -66,13 +198,11 @@ void menu_clientes()
 		else if (tecla == 13)
 		{
         	if(opcionSeleccionada == 1){
-            	cout<<"Registro vehiculos";
-            	break;
+            	registrarClientes();
         	}
         
 			else if(opcionSeleccionada == 2){
-            	cout<<"Consultar alquiler";
-            	break;
+            	consultarClientes();
         	}
         
 			else if(opcionSeleccionada == 3){
