@@ -1,7 +1,6 @@
 #include <iostream>
 #include <stdio.h>
 #include <fstream>
-#include "VariadicTable.h"
 #include <string.h>
 #include <iomanip>
 using namespace std;
@@ -29,7 +28,7 @@ int main(int argc, char **argv)
 {
 
 	//registerAuto();
-	MostrarAutos(0,"");
+	MostrarAutos(1,"");
 	return 0;
 }
 
@@ -98,7 +97,6 @@ int idAuto()
 	buscar >> dataAuto.Matricula;
 	buscar >> dataAuto.Modelo;
 	buscar >> dataAuto.Marca;
-	//buscar>>dataAuto.CostePorDia;
 	buscar >> dataAuto.Estado;
 
 	while (!buscar.eof())
@@ -107,7 +105,6 @@ int idAuto()
 		buscar >> dataAuto.Matricula;
 		buscar >> dataAuto.Modelo;
 		buscar >> dataAuto.Marca;
-		//buscar>>dataAuto.CostePorDia;
 		buscar >> dataAuto.Estado;
 		id++;
 	}
@@ -136,7 +133,6 @@ bool ValidarMatricula(string matricula)
 	buscar >> dataAuto.Matricula;
 	buscar >> dataAuto.Modelo;
 	buscar >> dataAuto.Marca;
-	//buscar>>dataAuto.CostePorDia;
 	buscar >> dataAuto.Estado;
 
 	while (!buscar.eof() || existe == true)
@@ -151,7 +147,6 @@ bool ValidarMatricula(string matricula)
 		buscar >> dataAuto.Matricula;
 		buscar >> dataAuto.Modelo;
 		buscar >> dataAuto.Marca;
-		//buscar>>dataAuto.CostePorDia;
 		buscar >> dataAuto.Estado;
 	}
 	buscar.close();
@@ -162,6 +157,7 @@ bool ValidarMatricula(string matricula)
 void MostrarAutos(int id, string matricula)
 {
 
+	int opcion;
 	ifstream buscar;
 	struct Autos dataAuto;
 
@@ -171,7 +167,6 @@ void MostrarAutos(int id, string matricula)
 	buscar >> dataAuto.Matricula;
 	buscar >> dataAuto.Modelo;
 	buscar >> dataAuto.Marca;
-	//buscar>>dataAuto.CostePorDia;
 	buscar >> dataAuto.Estado;
 
 	if (buscar.fail())
@@ -180,7 +175,13 @@ void MostrarAutos(int id, string matricula)
 	}else{
 	cout << "Listado de Automoviles" << endl;
 	}
-		
+
+	cout<<"1.Mostrar todos los autos"<<endl;
+	cout<<"2.Mostrar autos id"<<endl;
+	cout<<"3.Mostrar autos matricula"<<endl;
+	cout<<"4.Mostrar autos disponibles"<<endl;
+	cin>>opcion;
+	system("cls");	
 
 
 	cout
@@ -205,22 +206,42 @@ void MostrarAutos(int id, string matricula)
 
 				if (dataAuto.id == id)
 				{
-					cout << "ID: " << dataAuto.id << endl;
-					cout << "Matricula: " << dataAuto.Matricula << endl;
-					cout << "Modelo: " << dataAuto.Modelo << endl;
-					cout << "Marca: " << dataAuto.Marca << endl;
-					//cout << "Coste por dia: " << dataAuto.CostePorDia << endl;
-					cout << "Estado: " << dataAuto.Estado << endl;
+					cout
+						<< left
+						<< setw(10)
+						<< dataAuto.id
+						<< left
+						<< setw(12)
+						<< dataAuto.Matricula
+						<< left
+						<< setw(10)
+						<< dataAuto.Modelo
+						<< left
+						<< setw(10)
+						<< dataAuto.Marca
+						<< setw(10)
+						<< dataAuto.Estado
+						<< endl;
 					break;
 				}
 				else if (dataAuto.Matricula == matricula)
 				{
-					cout << "ID: " << dataAuto.id << endl;
-					cout << "Matricula: " << dataAuto.Matricula << endl;
-					cout << "Modelo: " << dataAuto.Modelo << endl;
-					cout << "Marca: " << dataAuto.Marca << endl;
-					//cout << "Coste por dia: " << dataAuto.CostePorDia <<endl;
-					cout << "Estado: " << dataAuto.Estado << endl;
+						cout
+						<< left
+						<< setw(10)
+						<< dataAuto.id
+						<< left
+						<< setw(12)
+						<< dataAuto.Matricula
+						<< left
+						<< setw(10)
+						<< dataAuto.Modelo
+						<< left
+						<< setw(10)
+						<< dataAuto.Marca
+						<< setw(10)
+						<< dataAuto.Estado
+						<< endl;
 					break;
 				}
 				else
@@ -249,7 +270,6 @@ void MostrarAutos(int id, string matricula)
 				buscar >> dataAuto.Matricula;
 				buscar >> dataAuto.Modelo;
 				buscar >> dataAuto.Marca;
-				//buscar>>dataAuto.CostePorDia;
 				buscar >> dataAuto.Estado;
 			}
 			buscar.close();
