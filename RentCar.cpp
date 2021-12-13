@@ -99,17 +99,8 @@ void modificarClientes()
 	struct Clientes c;
 	string cedulaBuscar;
 	
-	int CodigoAux;
-	string NombreAux;
-	string ApellidoAux;
-	string CedulaAux;
-	string TelefonoAux;
-	string FechaNacimientoAux;
-	string DireccionAux;
-	
 	archivo.open("clientes.txt", ios::in);
 	auxiliar.open("auxiliar.txt", ios::out);
-	
 	
 	consultarClientes();
 	cout << "Ingresa la cedula del cliente a modificar: ";
