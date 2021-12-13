@@ -27,18 +27,20 @@ void MostrarAutosMatricula(string matricula);
 void MostrarAutosEstado(string estado);
 void ModiAuto(int id);
 void ModificarAuto();
+bool AutoEstado(int id);
 
 // Main program
 
 int main(int argc, char **argv)
 {
 
-	// registerAuto();
+	//registerAuto();
 	//MostrarAutos();
 	// MostrarAutosId(2);
 	// MostrarAutosMatricula("frrfr");
 	// MostrarAutosEstado("Disponible");
-	ModificarAuto();
+	//ModificarAuto();
+	//AutoEstado(2);
 	return 0;
 }
 
@@ -91,7 +93,7 @@ void registerAuto()
 // metodo para generar el id del auto
 int idAuto()
 {
-	int id = 0;
+	int id = 1;
 	struct Autos dataAuto;
 	ifstream buscar;
 
@@ -102,14 +104,14 @@ int idAuto()
 	buscar >> dataAuto.Marca;
 	buscar >> dataAuto.Estado;
 
-	while (!buscar.eof())
+	while (!buscar.fail())
 	{
 		buscar >> dataAuto.id;
 		buscar >> dataAuto.Matricula;
 		buscar >> dataAuto.Modelo;
 		buscar >> dataAuto.Marca;
 		buscar >> dataAuto.Estado;
-		id++;
+		id=id+1;
 	}
 	buscar.close();
 	return id;
@@ -450,10 +452,6 @@ void ModificarAuto()
 	ofstream axuAuto;
 	int BuscarId;
 
-	/*string nuevoMatricula;
-	string nuevoModelo;
-	string nuevoMarca;*/
-
 	archivo.open("Autos.txt", ios::in);
 
 	axuAuto.open("auxAutos.txt", ios::out);
@@ -489,12 +487,7 @@ void ModificarAuto()
 		else
 		{
 
-		
-			/*axuAuto << dataAuto.id;
-			axuAuto << dataAuto.Matricula;
-			axuAuto	<< dataAuto.Modelo;
-			axuAuto	<< dataAuto.Marca;
-			axuAuto << dataAuto.Estado;*/
+	
 
 			axuAuto << dataAuto.id << "" << dataAuto.Matricula << " " << dataAuto.Modelo << " " << dataAuto.Marca << " " << dataAuto.Estado << endl;
 		}
@@ -511,4 +504,61 @@ void ModificarAuto()
 	rename("auxAutos.txt", "Autos.txt");
 	cout << "Vehiculo modificado con exito" << endl;
 	system("pause");
+}
+
+bool AutoEstado( int id)
+{
+	Autos dataAuto;
+	ifstream archivo;
+	ofstream axuAuto;
+
+	bool cambiado;
+
+	archivo.open("Autos.txt", ios::in);
+
+	axuAuto.open("auxAutos.txt", ios::out);
+
+	archivo >> dataAuto.id;
+	archivo >> dataAuto.Matricula;
+	archivo >> dataAuto.Modelo;
+	archivo >> dataAuto.Marca;
+	archivo >> dataAuto.Estado;
+
+	while (!archivo.eof())
+	{
+
+		if (dataAuto.id ==id)
+		{
+
+			dataAuto.Estado = "Alquilado";
+
+			axuAuto << dataAuto.id << " " << dataAuto.Matricula << " " << dataAuto.Modelo << " " << dataAuto.Marca<< " " << dataAuto.Estado << endl;
+			cambiado=true;
+			
+		}
+		if (dataAuto.id != id)
+		{
+
+			axuAuto << dataAuto.id << "" << dataAuto.Matricula << " " << dataAuto.Modelo << " " << dataAuto.Marca << " " << dataAuto.Estado << endl;
+		}
+		archivo >> dataAuto.id;
+		archivo >> dataAuto.Matricula;
+		archivo >> dataAuto.Modelo;
+		archivo >> dataAuto.Marca;
+		archivo >> dataAuto.Estado;
+	}
+	archivo.close();
+	axuAuto.close();
+
+	remove("Autos.txt");
+	rename("auxAutos.txt", "Autos.txt");
+
+	if	(cambiado)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
