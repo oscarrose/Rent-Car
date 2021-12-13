@@ -192,7 +192,7 @@ void menu_alquileres()
     	cout<<"4. Cancelar alquiler"; 
     	
     	gotoxy(10,8);
-    	cout<<"5. Devolver vehículo";
+    	cout<<"5. Devolver vehï¿½culo";
 		
 		gotoxy(10,9);
     	cout<<"6. Regresar";  
@@ -214,7 +214,7 @@ void menu_alquileres()
 		else if (tecla == 13)
 		{
         	if(opcionSeleccionada == 1){
-            	cout<<"Registro vehiculos";
+            	registrarAlquiler();
             	break;
         	}
         
