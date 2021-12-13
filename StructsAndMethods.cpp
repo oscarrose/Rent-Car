@@ -67,11 +67,9 @@ void registrarClientes();
 bool AutoDisponible(int id);
 bool ValidarCliente(string cedula);
 int idAlquiler();
-<<<<<<< HEAD
 void registrarAlquiler();
-=======
 void AlquilerRegistrar();
->>>>>>> 6b50279f92b47775f0ac1d587ab71282187fb514
+
 
 
 // Function definitions
@@ -120,43 +118,7 @@ bool AutoDisponible(int id)
 		return false;
 	}
 }
-//metodo para saber si el cliente existe
-bool ValidarCliente(string cedula){
 
-	
-	ifstream buscar;
-	struct Clientes dataCliente;
-
-	bool encontrado = false;
-
-	buscar.open("clientes.txt");
-
-
-	if (buscar.fail())
-	{
-		cout << "No hay clientes registrados" << endl;
-	}
-
-	while (!buscar.eof())
-	{
-		if (dataCliente.Cedula ==cedula)
-		{
-			encontrado = true;
-			break;
-		}
-		buscar >> dataCliente.CodigoCliente;
-		buscar >> dataCliente.Cedula;
-		buscar >> dataCliente.Nombre;
-		buscar >> dataCliente.Apellido;
-		buscar >> dataCliente.Direccion;
-		buscar >> dataCliente.Telefono;
-		buscar >> dataCliente.FechaNacimiento;
-
-		
-	}
-	buscar.close();
-	return encontrado;
-}
 //metoddo para incrementar el id del alquiler
 int idAlquiler()
 
@@ -196,11 +158,11 @@ void AlquilerRegistrar()
 		do{
 			cout << "Ingrese la cedula del cliente: ";
 			cin >> cedula;
-			if (!ValidarCliente(cedula))
+			if (validarCedula(cedula) == false)
 			{
 				cout << "Cliente no registrado" << endl;
 			}
-		} while (ValidarCliente(cedula) == false);
+		} while (validarCedula(cedula) == false);
 		
 		do{
 			cout << "Ingrese el id del auto: ";
@@ -1009,52 +971,9 @@ bool AutoEstado( int id)
 
 	return cambiado;
 }
-// metodo para saber los autos disponibles
-bool AutoDisponible(int id)
-{
-	ifstream buscar;
-	struct Autos dataAuto;
 
-	buscar.open("Autos.txt");
-	bool disponible;
-
-	if (buscar.fail())
-	{
-		cout << "No hay autos registrados" << endl;
-	}
-
-	while (!buscar.eof())
-	{
-		if (dataAuto.id == id)
-		{
-			if (dataAuto.Estado == "disponible")
-			{
-				disponible=true;
-			}
-			
-			
-			break;
-		}
-		buscar >> dataAuto.id;
-		buscar >> dataAuto.Matricula;
-		buscar >> dataAuto.Modelo;
-		buscar >> dataAuto.Marca;
-		buscar >> dataAuto.Estado;
-		
-	}
-	buscar.close();
-
-	if (disponible)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
 //metodo para saber si el cliente existe
-bool ValidarCliente(string cedula){
+/*bool ValidarCliente(string cedula){
 
 	ifstream buscar;
 	struct Clientes dataCliente;
@@ -1084,86 +1003,9 @@ bool ValidarCliente(string cedula){
 		buscar >> dataCliente.Telefono;
 		buscar >> dataCliente.FechaNacimiento;
 
-		
 	}
 	buscar.close();
 	return encontrado;
-}
-//metoddo para incrementar el id del alquiler
-int idAlquiler()
-
-{
-	int id = 1;
-	struct Alquiler alquiler ;
-	ifstream buscar;
-
-	buscar.open("alquier.txt");
-	
-	while (!buscar.fail())
-	{
-		buscar >> alquiler.CodigoAlquiler;
-		buscar >> alquiler.CedulaCliente;
-		buscar >> alquiler.FechaAlquiler;
-		buscar >> alquiler.Estado;
-
-		id=id+1;
-	}
-	buscar.close();
-	return id;
-}
-//metodo para registrar el alquiler
-void AlquilerRegistrar()
-{
-	string cedula;
-	int idAuto;
-	try
-	{
-		cout << "Registro de Alquiler" << endl;
-
-		struct Alquiler dataAlquiler;
-		ofstream archivoAquiler;
-
-		archivoAquiler.open("alquiler.txt", ios::app);
-
-		do{
-			cout << "Ingrese la cedula del cliente: ";
-			cin >> cedula;
-			if (!ValidarCliente(cedula))
-			{
-				cout << "Cliente no registrado" << endl;
-			}
-		} while (ValidarCliente(cedula) == false);
-		
-		do{
-			cout << "Ingrese el id del auto: ";
-			cin >> idAuto;
-			if (AutoDisponible(idAuto))
-			{
-				cout << "Auto no disponible" << endl;
-			}
-		} while (AutoDisponible(idAuto) == false);
-	
-		dataAlquiler.CodigoAlquiler = idAlquiler();
-
-		cout<<"Fecha de alquiler: ";
-		cin >> dataAlquiler.FechaAlquiler;
-		dataAlquiler.Estado = "Activo";
-
-		AutoEstado(dataAlquiler.CodigoAlquiler);
-
-		archivoAquiler << dataAlquiler.CodigoAlquiler << " " << cedula << " " << dataAlquiler.FechaAlquiler << " " << dataAlquiler.Estado << endl;
-		archivoAquiler<<" "<<endl;
-	
-		archivoAquiler.close();
-
-	}
-	catch (const std::exception &e)
-	{
-		std::cerr << e.what() << '\n';
-	}
-
-	system("pause");
+}*/
 
 
-	
-}
