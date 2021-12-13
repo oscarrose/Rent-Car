@@ -12,37 +12,37 @@ using namespace std;
 //Structs
 struct Clientes
 {
-	char CodigoCliente[5];	
-	char Nombre[25];
-	char Apellido[30];
-	char Cedula[12];
-	char Telefono[15];
-	char FechaNacimiento[12];
-	char Direccion[60];
+	int CodigoCliente;	
+	string Nombre;
+	string Apellido;
+	string Cedula;
+	string Telefono;
+	string FechaNacimiento;
+	string Direccion;
 };
 
 struct Autos
 {
 	int Codigo;
-	char Matricula[7];
-	char Modelo[30];
-	char Marca[20];
-	char Estado[15];
+	string Matricula;
+	string Modelo;
+	string Marca;
+	string Estado;
 };
 
 struct Alquiler
 {
 	int CodigoAlquiler;
-	char CedulaCliente[11];
-	char FechaAlquiler[10];
-	char Estado[15];
+	string CedulaCliente;
+	string FechaAlquiler;
+	string Estado;
 };
 
 struct DetalleAlquiler
 {
 	int CodigoDetalle;
 	int CodigoAlquiler;
-	char MatriculaVehiculo[7];
+	string MatriculaVehiculo;
 	float PrecioPorDia;
 	int DiasAlquiler;
 	int DiasAtraso;
@@ -57,12 +57,93 @@ void modificarClientes()
 }
 
 
+bool validarCedula(string cedula)
+{
+	bool existe = false;
+
+	struct Clientes c;
+	ifstream archivo;
+
+	archivo.open("clientes.txt");
+
+	if (archivo.fail())
+	{
+		return existe;
+	}
+
+	archivo >> c.CodigoCliente;
+	archivo >> c.Nombre;
+	archivo >> c.Apellido;
+	archivo >> c.Cedula;
+	archivo >> c.Telefono;
+	archivo >> c.FechaNacimiento;
+	archivo >> c.Direccion;
+
+	while (!archivo.eof())
+	{
+		if (c.Cedula == cedula)
+		{
+			existe = true;
+			break;
+		}
+
+		archivo >> c.CodigoCliente;
+		archivo >> c.Nombre;
+		archivo >> c.Apellido;
+		archivo >> c.Cedula;
+		archivo >> c.Telefono;
+		archivo >> c.FechaNacimiento;
+		archivo >> c.Direccion;
+	}
+	
+	archivo.close();
+	return existe;
+}
+
+
+int incrementoCodigoCliente()
+{
+	
+	struct Clientes c; 
+	int codigo = 1; 
+	
+	ifstream archivo; 
+	 
+	archivo.open("clientes.txt");
+	 
+	archivo>>c.CodigoCliente; 
+	archivo>>c.Nombre; 
+	archivo>>c.Apellido; 
+	archivo>>c.Cedula; 
+	archivo>>c.Telefono;
+	archivo>>c.FechaNacimiento;
+	archivo>>c.Direccion; 
+	 
+	while(!archivo.eof())
+	{ 
+		archivo>>c.CodigoCliente; 
+		archivo>>c.Nombre; 
+		archivo>>c.Apellido; 
+		archivo>>c.Cedula; 
+		archivo>>c.Telefono;
+		archivo>>c.FechaNacimiento;
+		archivo>>c.Direccion; 
+		 
+		codigo = codigo + 1;	 
+	} 
+	 
+	archivo.close(); 
+	return codigo; 
+}
+
+
+
 //Consulta de clientes
 void consultarClientes()
 {
 	system("cls");
 	
-	Clientes cli;
+	struct Clientes cli;
 	ifstream archivo;
 	
 	archivo.open("clientes.txt");
@@ -104,41 +185,48 @@ void registrarClientes()
 	system("cls");
 	
 	ofstream archivo;
-	Clientes cli;
+	struct Clientes cli;
 	
-	
-	cout << "Introduzca el codigo: ";
-	cin >> cli.CodigoCliente;
-	cout << "Introduzca el Nombre: ";
-	cin >> cli.Nombre;
-	cout << "Introduzca el Apellido: ";
-	cin >> cli.Apellido;
 	cout << "Introduzca la cedula: ";
 	cin >> cli.Cedula;
-	cout << "Introduzca el telefono: ";
-	cin >> cli.Telefono;
-	cout << "Introduzca la fecha de Nacimiento: ";
-	cin >> cli.FechaNacimiento;
-	cout << "Introduzca la direccion: ";
-	cin >> cli.Direccion;
 	
+	if(validarCedula(cli.Cedula) == false)
+	{
+		cli.CodigoCliente = incrementoCodigoCliente();
+		cout << "Introduzca el Nombre: ";
+		cin >> cli.Nombre;
+		cout << "Introduzca el Apellido: ";
+		cin >> cli.Apellido;
+		cout << "Introduzca el telefono: ";
+		cin >> cli.Telefono;
+		cout << "Introduzca la fecha de Nacimiento: ";
+		cin >> cli.FechaNacimiento;
+		cout << "Introduzca la direccion: ";
+		cin >> cli.Direccion;
 	
-	archivo.open("clientes.txt", ios::out | ios::app);
-	archivo<<cli.CodigoCliente;
-	archivo<<endl;
-    archivo<<cli.Nombre;
-    archivo<<endl;
-    archivo<<cli.Apellido;
-    archivo<<endl;
-    archivo<<cli.Cedula;
-    archivo<<endl;
-	archivo<<cli.Telefono;
-	archivo<<endl;
-	archivo<<cli.FechaNacimiento;
-	archivo<<endl;
-	archivo<<cli.Direccion;
-	archivo<<endl;
-	archivo.close();
+		archivo.open("clientes.txt", ios::out | ios::app);
+		archivo<<cli.CodigoCliente;
+		archivo<<endl;
+    	archivo<<cli.Nombre;
+    	archivo<<endl;
+    	archivo<<cli.Apellido;
+    	archivo<<endl;
+    	archivo<<cli.Cedula;
+    	archivo<<endl;
+		archivo<<cli.Telefono;
+		archivo<<endl;
+		archivo<<cli.FechaNacimiento;
+		archivo<<endl;
+		archivo<<cli.Direccion;
+		archivo<<endl;
+		archivo.close();
+	}
+	else
+	{
+		cout << "La cedula ya existe";
+		getch();
+	}
+	
 }
 
 
