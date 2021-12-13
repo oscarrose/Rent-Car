@@ -98,7 +98,7 @@ void menu_vehiculos()
     	cout<<"1. Registrar vehiculo";
  
     	gotoxy(10,5);
-    	cout<<"2. Consultars vehiculos";
+    	cout<<"2. Consultar vehiculos";
     	
     	gotoxy(10,6);
     	cout<<"3. Consultar por ID";
@@ -165,17 +165,17 @@ void menu_vehiculos()
             	ModificarAuto();
         	}
         	
-        	else if(opcionSeleccionada == 4){
+        	else if(opcionSeleccionada == 6){
             	cout<<"Inicio mantenimiento";
             	break;
         	}
         	
-        	else if(opcionSeleccionada == 5){
+        	else if(opcionSeleccionada == 7){
             	cout<<"Fin mantenimiento";
             	break;
         	}
         
-			else if(opcionSeleccionada == 6){
+			else if(opcionSeleccionada == 8){
 				menu = false;
         	}
     	}
@@ -236,12 +236,12 @@ void menu_alquileres()
 		else if (tecla == 13)
 		{
         	if(opcionSeleccionada == 1){
-            	cout<<"Registro vehiculos";
-            	break;
+            	system("cls");
+            	AlquilerRegistrar();
         	}
         
 			else if(opcionSeleccionada == 2){
-            	cout<<"Consulta alquiler";
+            	
             	break;
         	}
         
