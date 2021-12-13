@@ -50,9 +50,148 @@ struct DetalleAlquiler
 
 
 
+//Consulta de clientes
+void consultarClientes()
+{
+	system("cls");
+	
+	struct Clientes cli;
+	ifstream archivo;
+	
+	archivo.open("clientes.txt");
+	archivo>>cli.CodigoCliente;
+    archivo>>cli.Nombre;
+    archivo>>cli.Apellido;
+    archivo>>cli.Cedula;
+    archivo>>cli.Telefono;
+    archivo>>cli.FechaNacimiento;
+    archivo>>cli.Direccion;
+    
+    while(!archivo.eof())
+    {
+        cout << "Codigo: " << cli.CodigoCliente << endl;
+        cout << "Nombre: " << cli.Nombre << endl;
+        cout << "Apellido: " << cli.Apellido << endl;
+    	cout << "Cedula: " << cli.Cedula << endl;
+    	cout << "Telefono: " << cli.Telefono << endl;
+    	cout << "FechaNacimiento: " << cli.FechaNacimiento << endl;
+    	cout << "Direccion: " << cli.Direccion << endl << endl;
+                            
+		archivo>>cli.CodigoCliente;
+    	archivo>>cli.Nombre;
+    	archivo>>cli.Apellido;
+    	archivo>>cli.Cedula;
+    	archivo>>cli.Telefono;
+    	archivo>>cli.FechaNacimiento;
+    	archivo>>cli.Direccion;
+    }
+    
+	archivo.close();
+	getch();
+}
+
+
 //Modificar cliente
 void modificarClientes()
 {
+	ifstream archivo;
+	ofstream auxiliar;
+	struct Clientes c;
+	string cedulaBuscar;
+	
+	int CodigoAux;
+	string NombreAux;
+	string ApellidoAux;
+	string CedulaAux;
+	string TelefonoAux;
+	string FechaNacimientoAux;
+	string DireccionAux;
+	
+	archivo.open("clientes.txt", ios::in);
+	auxiliar.open("auxiliar.txt", ios::out);
+	
+	
+	consultarClientes();
+	cout << "Ingresa la cedula del cliente a modificar: ";
+	cin >> cedulaBuscar;
+	
+	archivo>>c.CodigoCliente;
+    archivo>>c.Nombre;
+    archivo>>c.Apellido;
+    archivo>>c.Cedula;
+    archivo>>c.Telefono;
+    archivo>>c.FechaNacimiento;
+    archivo>>c.Direccion;
+	
+	while(!archivo.eof()){
+    
+        if(c.Cedula == cedulaBuscar)
+		{
+            
+            cout << endl << "Introduzca el nombre:  ";
+            cin >> c.Nombre;
+            cout << "Introduzca el apellido: ";
+            cin >> c.Apellido;
+            cout <<"Introduzca el telefono: ";
+            cin >> c.Telefono;
+            cout <<"Introduzca la fecha de nacimiento: ";
+            cin >> c.FechaNacimiento;
+            cout <<"Introduzca la direccion: ";
+            cin >> c.Direccion;
+    
+			auxiliar<<endl;
+            auxiliar<<c.CodigoCliente;
+            auxiliar<<endl;
+            auxiliar<<c.Nombre;
+            auxiliar<<endl;
+            auxiliar<<c.Apellido;
+            auxiliar<<endl;
+            auxiliar<<c.Cedula;
+            auxiliar<<endl;
+            auxiliar<<c.Telefono;
+            auxiliar<<endl;
+            auxiliar<<c.FechaNacimiento;
+            auxiliar<<endl;
+            auxiliar<<c.Direccion;
+            auxiliar<<endl;
+
+        }
+        else
+        {
+        	
+        	auxiliar<<endl;
+            auxiliar<<c.CodigoCliente;
+            auxiliar<<endl;
+            auxiliar<<c.Nombre;
+            auxiliar<<endl;
+            auxiliar<<c.Apellido;
+            auxiliar<<endl;
+            auxiliar<<c.Cedula;
+            auxiliar<<endl;
+            auxiliar<<c.Telefono;
+            auxiliar<<endl;
+            auxiliar<<c.FechaNacimiento;
+            auxiliar<<endl;
+            auxiliar<<c.Direccion;
+            auxiliar<<endl;
+        	
+        }
+    
+    
+		archivo>>c.CodigoCliente;
+    	archivo>>c.Nombre;
+    	archivo>>c.Apellido;
+    	archivo>>c.Cedula;
+    	archivo>>c.Telefono;
+    	archivo>>c.FechaNacimiento;
+    	archivo>>c.Direccion;
+    }
+    
+    archivo.close();
+    auxiliar.close();    
+    
+    remove("clientes.txt");
+    rename("auxiliar.txt","clientes.txt");
 	
 }
 
@@ -65,11 +204,6 @@ bool validarCedula(string cedula)
 	ifstream archivo;
 
 	archivo.open("clientes.txt");
-
-	if (archivo.fail())
-	{
-		return existe;
-	}
 
 	archivo >> c.CodigoCliente;
 	archivo >> c.Nombre;
@@ -134,48 +268,6 @@ int incrementoCodigoCliente()
 	 
 	archivo.close(); 
 	return codigo; 
-}
-
-
-
-//Consulta de clientes
-void consultarClientes()
-{
-	system("cls");
-	
-	struct Clientes cli;
-	ifstream archivo;
-	
-	archivo.open("clientes.txt");
-	archivo>>cli.CodigoCliente;
-    archivo>>cli.Nombre;
-    archivo>>cli.Apellido;
-    archivo>>cli.Cedula;
-    archivo>>cli.Telefono;
-    archivo>>cli.FechaNacimiento;
-    archivo>>cli.Direccion;
-    
-    while(!archivo.eof())
-    {
-        cout << "Codigo: " << cli.CodigoCliente << endl;
-        cout << "Nombre: " << cli.Nombre << endl;
-        cout << "Apellido: " << cli.Apellido << endl;
-    	cout << "Cedula: " << cli.Cedula << endl;
-    	cout << "Telefono: " << cli.Telefono << endl;
-    	cout << "FechaNacimiento: " << cli.FechaNacimiento << endl;
-    	cout << "Direccion: " << cli.Direccion << endl << endl;
-                            
-		archivo>>cli.CodigoCliente;
-    	archivo>>cli.Nombre;
-    	archivo>>cli.Apellido;
-    	archivo>>cli.Cedula;
-    	archivo>>cli.Telefono;
-    	archivo>>cli.FechaNacimiento;
-    	archivo>>cli.Direccion;
-    }
-    
-	archivo.close();
-	getch();
 }
 
 
@@ -294,8 +386,7 @@ void menu_clientes()
         	}
         
 			else if(opcionSeleccionada == 3){
-            	cout<<"Modificar alquiler";
-            	break;
+            	modificarClientes();
         	}
         
 			else if(opcionSeleccionada == 4){
