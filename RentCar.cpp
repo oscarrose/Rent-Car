@@ -29,6 +29,8 @@ void ModiAuto(int id);
 void ModificarAuto();
 bool AutoEstado(int id);
 
+bool AutoDisponible(int id);
+
 // Main program
 
 int main(int argc, char **argv)
@@ -41,6 +43,7 @@ int main(int argc, char **argv)
 	// MostrarAutosEstado("Disponible");
 	//ModificarAuto();
 	//AutoEstado(2);
+	AutoDisponible(2);
 	return 0;
 }
 
@@ -561,4 +564,43 @@ bool AutoEstado( int id)
 	{
 		return false;
 	}
+}
+
+bool AutoDisponible(int id)
+{
+	ifstream buscar;
+	struct Autos dataAuto;
+
+	buscar.open("Autos.txt");
+
+
+	if (buscar.fail())
+	{
+		cout << "No hay autos registrados" << endl;
+	}
+
+	while (!buscar.eof())
+	{
+		if (dataAuto.id == id)
+		{
+			if (dataAuto.Estado == "disponible")
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+			
+			break;
+		}
+		buscar >> dataAuto.id;
+		buscar >> dataAuto.Matricula;
+		buscar >> dataAuto.Modelo;
+		buscar >> dataAuto.Marca;
+		buscar >> dataAuto.Estado;
+		
+	}
+	buscar.close();
+
 }
