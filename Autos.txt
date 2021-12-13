@@ -1,2 +1,6 @@
 
+<<<<<<< HEAD
 1 ABC HE3 Honda disponible
+=======
+1 ABC1 HY1 Honda disponible
+>>>>>>> 6b50279f92b47775f0ac1d587ab71282187fb514

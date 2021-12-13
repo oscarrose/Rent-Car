@@ -98,29 +98,35 @@ void menu_vehiculos()
     	cout<<"1. Registrar vehiculo";
  
     	gotoxy(10,5);
-    	cout<<"2. Consultar vehiculo";
- 
-    	gotoxy(10,6);
-    	cout<<"3. Modificar vehiculo";
- 
-    	gotoxy(10,7);
-    	cout<<"4. Iniciar Mantenimiento"; 
+    	cout<<"2. Consultar vehiculos";
     	
+    	gotoxy(10,6);
+    	cout<<"3. Consultar por ID";
+    	
+    	gotoxy(10,7);
+    	cout<<"4. Consultar por matricula";
+ 
     	gotoxy(10,8);
-    	cout<<"5. Terminar mantenimiento";
+    	cout<<"5. Modificar vehiculo";
+ 
+    	gotoxy(10,9);
+    	cout<<"6. Iniciar Mantenimiento"; 
+    	
+    	gotoxy(10,10);
+    	cout<<"7. Terminar mantenimiento";
 		
-		gotoxy(10,9);
-    	cout<<"6. Regresar";  
+		gotoxy(10,11);
+    	cout<<"8. Regresar";  
     
     	tecla = getch();
  
-    	if (tecla == 72 && (opcionSeleccionada >=2 && opcionSeleccionada <=6))
+    	if (tecla == 72 && (opcionSeleccionada >=2 && opcionSeleccionada <=8))
 		{
     	
  			opcionSeleccionada--;
     	}
     
-    	else if (tecla == 80 && (opcionSeleccionada >=1 && opcionSeleccionada <=5))
+    	else if (tecla == 80 && (opcionSeleccionada >=1 && opcionSeleccionada <=7))
 		{
  
         	opcionSeleccionada++;
@@ -137,23 +143,39 @@ void menu_vehiculos()
 				system("cls");
             	MostrarAutos();
         	}
+        	
+        	else if(opcionSeleccionada == 3){
+				system("cls");
+				int id;
+				cout << "Ingresar ID: ";
+				cin >> id;
+            	MostrarAutosId(id);
+        	}
+        	
+        	else if(opcionSeleccionada == 4){
+				system("cls");
+				string matricula;
+				cout << "Ingresar matricula: ";
+				cin >> matricula;
+            	MostrarAutosMatricula(matricula);
+        	}
         
-			else if(opcionSeleccionada == 3){
+			else if(opcionSeleccionada == 5){
 				system("cls");
             	ModificarAuto();
         	}
         	
-        	else if(opcionSeleccionada == 4){
+        	else if(opcionSeleccionada == 6){
             	cout<<"Inicio mantenimiento";
             	break;
         	}
         	
-        	else if(opcionSeleccionada == 5){
+        	else if(opcionSeleccionada == 7){
             	cout<<"Fin mantenimiento";
             	break;
         	}
         
-			else if(opcionSeleccionada == 6){
+			else if(opcionSeleccionada == 8){
 				menu = false;
         	}
     	}
@@ -214,12 +236,17 @@ void menu_alquileres()
 		else if (tecla == 13)
 		{
         	if(opcionSeleccionada == 1){
+<<<<<<< HEAD
             	registrarAlquiler();
             	break;
+=======
+            	system("cls");
+            	AlquilerRegistrar();
+>>>>>>> 6b50279f92b47775f0ac1d587ab71282187fb514
         	}
         
 			else if(opcionSeleccionada == 2){
-            	cout<<"Consulta alquiler";
+            	
             	break;
         	}
         
@@ -271,7 +298,7 @@ void menu_principal()
     	cout<<"2. Gestionar vehiculos";
  
     	gotoxy(10,6);
-    	cout<<"3. Gesstionar alquileres";
+    	cout<<"3. Gestionar alquileres";
  
     	gotoxy(10,7);
     	cout<<"4. Salir\n"; 
