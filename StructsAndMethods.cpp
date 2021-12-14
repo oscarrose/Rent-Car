@@ -518,7 +518,7 @@ bool ValidarMatricula(string matricula)
 void MostrarAutos()
 {
 
-	system("cls");
+	
 	ifstream buscar;
 	struct Autos dataAuto;
 
@@ -589,10 +589,10 @@ void MostrarAutos()
 //metodo para mostrar los autos por id
 void MostrarAutosId(int id)
 {
-	system("cls");
+	
 	ifstream buscar;
 	struct Autos dataAuto;
-
+	bool existe = false;
 	buscar.open("Autos.txt");
 
 	buscar >> dataAuto.id;
@@ -625,10 +625,11 @@ void MostrarAutosId(int id)
 		<< setw(10)
 		<< "Estado"
 		<< endl;
-	while (!buscar.eof() + 1)
+	while (!buscar.fail())
 	{
 		if (dataAuto.id == id)
 		{
+			existe = true;
 			cout
 				<< left
 				<< setw(10)
@@ -653,16 +654,22 @@ void MostrarAutosId(int id)
 		buscar >> dataAuto.Marca;
 		buscar >> dataAuto.Estado;
 	}
+	if (existe == false)
+	{
+		cout << "No existe el auto con el id " << id << endl;
+	}
 	buscar.close();
+	
 	system("pause");
 }
 //metodo para mostrar los autos por matricula
 void MostrarAutosMatricula(string matricula)
 {
 
-	system("cls");
+	
 	ifstream buscar;
 	struct Autos dataAuto;
+	bool existe = false;
 
 	buscar.open("Autos.txt");
 
@@ -696,10 +703,11 @@ void MostrarAutosMatricula(string matricula)
 		<< setw(10)
 		<< "Estado"
 		<< endl;
-	while (!buscar.eof() + 1)
+	while (!buscar.fail())
 	{
 		if (dataAuto.Matricula == matricula)
-		{
+		{	
+			existe = true;
 			cout
 				<< left
 				<< setw(10)
@@ -724,7 +732,12 @@ void MostrarAutosMatricula(string matricula)
 		buscar >> dataAuto.Marca;
 		buscar >> dataAuto.Estado;
 	}
+
 	buscar.close();
+	if (existe == false)
+	{
+		cout << "No existe el auto con la matricula " << matricula << endl;
+	}
 	system("pause");
 }
 //metodo para mostrar los autos por estado
@@ -733,6 +746,7 @@ void MostrarAutosEstado(string estado)
 	//system("cls");
 	ifstream buscar;
 	struct Autos dataAuto;
+	bool existe = false;
 
 	buscar.open("Autos.txt");
 
@@ -770,6 +784,7 @@ void MostrarAutosEstado(string estado)
 	{
 		if (dataAuto.Estado == estado)
 		{
+			existe = true;
 			cout
 				<< left
 				<< setw(10)
@@ -794,6 +809,10 @@ void MostrarAutosEstado(string estado)
 		buscar >> dataAuto.Estado;
 	}
 	buscar.close();
+	if (existe == false)
+	{
+		cout << "No existe el auto con el estado " << estado << endl;
+	}
 	system("pause");
 }
 // metodo para  modificar los autos
