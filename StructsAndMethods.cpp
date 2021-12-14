@@ -25,19 +25,15 @@ struct Alquiler
 {
 	int CodigoAlquiler;
 	string CedulaCliente;
+	string MatriculaVehiculo;
 	string FechaAlquiler;
+	int DiasAlquiler;
+	float PrecioPorDia;
+	float Monto;
+	int DiasAtraso;
 	string Estado;
 };
 
-struct DetalleAlquiler
-{
-	int CodigoDetalle;
-	int CodigoAlquiler;
-	string MatriculaVehiculo;
-	float PrecioPorDia;
-	int DiasAlquiler;
-	int DiasAtraso;
-};
 
 struct Autos
 {
@@ -64,22 +60,131 @@ void modificarClientes();
 bool validarCedula(string cedula);
 int incrementoCodigoCliente();
 void registrarClientes();
-bool AutoDisponible(string matricula);
+bool AutoDisponible(int id);
 int idAlquiler();
 void AlquilerRegistrar();
-void AlquilerRegistrar();
+void AlquilerConsultar();
+
 
 
 // Function definitions
+// metodo para mostrar los autos
+void AlquilerConsultar()
+{
+
+	system("cls");
+	ifstream buscar;
+	struct Alquiler dataAlquiler;
+
+	buscar.open("alquiler.txt");
+
+	buscar >> dataAlquiler.CodigoAlquiler;
+	buscar >> dataAlquiler.CedulaCliente;
+	buscar >> dataAlquiler.MatriculaVehiculo;
+	buscar >> dataAlquiler.FechaAlquiler;
+	buscar >> dataAlquiler.DiasAlquiler;
+	buscar >> dataAlquiler.PrecioPorDia;
+	buscar >> dataAlquiler.Monto;
+	buscar >> dataAlquiler.DiasAtraso;
+	buscar >> dataAlquiler.Estado;
+	
+
+	if (buscar.fail())
+	{
+		cout << "No hay alquileres registrados" << endl;
+	}
+	else
+	{
+		cout << "Listado de Alquileres" << endl;
+	}
+
+	cout
+		<< left
+		<< setw(10)
+		<< "Codigo"
+		<< left
+		<< setw(10)
+		<< "CedulaCliente"
+		<< left
+		<< setw(12)
+		<< "Matricula"
+		<< left
+		<< setw(10)
+		<< "FechaAlquiler"
+		<< setw(10)
+		<< left
+		<< "DiasAlquiler"
+		<< setw(10)
+		<< left
+		<< "PrecioPorDia"
+		<< setw(10)
+		<< left
+		<< "Monto"
+		<< setw(10)
+		<< left
+		<< "DiasAtraso"
+		<< setw(10)
+		<< "Estado"
+		<< endl;
+
+	while (!buscar.fail())
+	{
+
+		cout
+			<< left
+			<< setw(10)
+			<< dataAlquiler.CodigoAlquiler
+			<< left
+			<< setw(10)
+			<< dataAlquiler.CedulaCliente
+			<< left
+			<< setw(12)
+			<< dataAlquiler.MatriculaVehiculo
+			<< left
+			<< setw(10)
+			<< dataAlquiler.FechaAlquiler
+			<< setw(10)
+			<< left
+			<< dataAlquiler.DiasAlquiler
+			<< setw(10)
+			<< left
+			<< dataAlquiler.PrecioPorDia
+			<< setw(10)
+			<< left
+			<< dataAlquiler.Monto
+			<< setw(10)
+			<< left
+			<< dataAlquiler.DiasAtraso
+			<< setw(10)
+			<< dataAlquiler.Estado
+			<< endl;
+
+		buscar >> dataAlquiler.CodigoAlquiler;
+		buscar >> dataAlquiler.CedulaCliente;
+		buscar >> dataAlquiler.MatriculaVehiculo;
+		buscar >> dataAlquiler.FechaAlquiler;
+		buscar >> dataAlquiler.DiasAlquiler;
+		buscar >> dataAlquiler.PrecioPorDia;
+		buscar >> dataAlquiler.Monto;
+		buscar >> dataAlquiler.DiasAtraso;
+		buscar >> dataAlquiler.Estado;
+	}
+	buscar.close();
+	system("pause");
+}
+
+
+
+
 
 // metodo para saber los autos disponibles
-bool AutoDisponible(string matricula)
+bool AutoDisponible(int id)
 {
 	ifstream buscar;
 	struct Autos dataAuto;
 
 	buscar.open("Autos.txt");
-	bool disponible=false;
+	bool disponible;
 
 	if (buscar.fail())
 	{
@@ -88,7 +193,7 @@ bool AutoDisponible(string matricula)
 
 	while (!buscar.eof())
 	{
-		if (dataAuto.Matricula == matricula)
+		if (dataAuto.id == id)
 		{
 			if (dataAuto.Estado == "disponible")
 			{
@@ -107,11 +212,19 @@ bool AutoDisponible(string matricula)
 	}
 	buscar.close();
 
-	return disponible;
+	if (disponible)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 //metoddo para incrementar el id del alquiler
 int idAlquiler()
+
 {
 	int id = 1;
 	struct Alquiler alquiler ;
@@ -131,11 +244,71 @@ int idAlquiler()
 	buscar.close();
 	return id;
 }
+//metodo para registrar el alquiler
+void AlquilerRegistrar()
+{
+	string cedula;
+	int idAuto;
+	try
+	{
+		cout << "Registro de Alquiler" << endl;
+
+		struct Alquiler dataAlquiler;
+		ofstream archivoAquiler;
+
+		archivoAquiler.open("alquiler.txt", ios::app);
+
+		do{
+			cout << "Ingrese la cedula del cliente: ";
+			cin >> cedula;
+			if (validarCedula(cedula) == false)
+			{
+				cout << "Cliente no registrado" << endl;
+			}
+		} while (validarCedula(cedula) == false);
+		
+		do{
+			cout << "Ingrese el id del auto: ";
+			cin >> idAuto;
+			if (AutoDisponible(idAuto))
+			{
+				cout << "Auto no disponible" << endl;
+			}
+		} while (AutoDisponible(idAuto) == false);
+	
+		dataAlquiler.CodigoAlquiler = idAlquiler();
+
+		cout<<"Fecha de alquiler: ";
+		cin >> dataAlquiler.FechaAlquiler;
+		cout<< "Dias de alquiler: ";
+		cin >> dataAlquiler.DiasAlquiler;
+		cout<<"Precio por dia: ";
+		cin >> dataAlquiler.PrecioPorDia;
+		dataAlquiler.Monto = (dataAlquiler.PrecioPorDia * dataAlquiler.DiasAlquiler);
+		dataAlquiler.Estado = "Activo";
+		dataAlquiler.DiasAtraso = 0;
+
+		AutoEstado(dataAlquiler.CodigoAlquiler);
+
+		archivoAquiler << dataAlquiler.CodigoAlquiler << " " << cedula << " " << dataAlquiler.FechaAlquiler << " " << dataAlquiler.DiasAlquiler << " " << dataAlquiler.PrecioPorDia << " " << dataAlquiler.Monto << " " << dataAlquiler.DiasAtraso << " " << dataAlquiler.Estado << endl;  
+		archivoAquiler<<" "<<endl;
+	
+		archivoAquiler.close();
+
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+
+	system("pause");
+}
 
 //Consulta de clientes
 void consultarClientes()
 {
-	cout<<"Listado de clientes"<<endl;
+	system("cls");
+	
 	struct Clientes cli;
 	ifstream archivo;
 	
@@ -518,7 +691,7 @@ bool ValidarMatricula(string matricula)
 void MostrarAutos()
 {
 
-	
+	system("cls");
 	ifstream buscar;
 	struct Autos dataAuto;
 
@@ -589,10 +762,10 @@ void MostrarAutos()
 //metodo para mostrar los autos por id
 void MostrarAutosId(int id)
 {
-	
+	system("cls");
 	ifstream buscar;
 	struct Autos dataAuto;
-	bool existe = false;
+
 	buscar.open("Autos.txt");
 
 	buscar >> dataAuto.id;
@@ -625,11 +798,10 @@ void MostrarAutosId(int id)
 		<< setw(10)
 		<< "Estado"
 		<< endl;
-	while (!buscar.fail())
+	while (!buscar.eof() + 1)
 	{
 		if (dataAuto.id == id)
 		{
-			existe = true;
 			cout
 				<< left
 				<< setw(10)
@@ -654,22 +826,16 @@ void MostrarAutosId(int id)
 		buscar >> dataAuto.Marca;
 		buscar >> dataAuto.Estado;
 	}
-	if (existe == false)
-	{
-		cout << "No existe el auto con el id " << id << endl;
-	}
 	buscar.close();
-	
 	system("pause");
 }
 //metodo para mostrar los autos por matricula
 void MostrarAutosMatricula(string matricula)
 {
 
-	
+	system("cls");
 	ifstream buscar;
 	struct Autos dataAuto;
-	bool existe = false;
 
 	buscar.open("Autos.txt");
 
@@ -703,11 +869,10 @@ void MostrarAutosMatricula(string matricula)
 		<< setw(10)
 		<< "Estado"
 		<< endl;
-	while (!buscar.fail())
+	while (!buscar.eof() + 1)
 	{
 		if (dataAuto.Matricula == matricula)
-		{	
-			existe = true;
+		{
 			cout
 				<< left
 				<< setw(10)
@@ -732,21 +897,15 @@ void MostrarAutosMatricula(string matricula)
 		buscar >> dataAuto.Marca;
 		buscar >> dataAuto.Estado;
 	}
-
 	buscar.close();
-	if (existe == false)
-	{
-		cout << "No existe el auto con la matricula " << matricula << endl;
-	}
 	system("pause");
 }
 //metodo para mostrar los autos por estado
 void MostrarAutosEstado(string estado)
 {
-	//system("cls");
+	system("cls");
 	ifstream buscar;
 	struct Autos dataAuto;
-	bool existe = false;
 
 	buscar.open("Autos.txt");
 
@@ -784,7 +943,6 @@ void MostrarAutosEstado(string estado)
 	{
 		if (dataAuto.Estado == estado)
 		{
-			existe = true;
 			cout
 				<< left
 				<< setw(10)
@@ -809,10 +967,6 @@ void MostrarAutosEstado(string estado)
 		buscar >> dataAuto.Estado;
 	}
 	buscar.close();
-	if (existe == false)
-	{
-		cout << "No existe el auto con el estado " << estado << endl;
-	}
 	system("pause");
 }
 // metodo para  modificar los autos
@@ -927,70 +1081,40 @@ bool AutoEstado( int id)
 	return cambiado;
 }
 
+//metodo para saber si el cliente existe
+/*bool ValidarCliente(string cedula){
 
-//metodo para registrar el alquiler
-void AlquilerRegistrar()
-{
-	string cedula;
-	string AutoMatricula;
-	try
+	ifstream buscar;
+	struct Clientes dataCliente;
+
+	bool encontrado = false;
+
+	buscar.open("clientes.txt");
+
+
+	if (buscar.fail())
 	{
-		cout << "Registro de Alquiler" << endl;
-
-		struct Alquiler dataAlquiler;
-		ofstream archivoAquiler;
-
-		archivoAquiler.open("alquiler.txt", ios::app);
-		
-		
-		do{
-		
-			consultarClientes();
-			cout << "Ingrese la cedula del cliente: ";
-			cin >> cedula;
-			if (validarCedula(cedula)==false)
-			{
-				cout << "Cliente no registrado" << endl;
-				cout <<endl;
-			}
-		} while (validarCedula(cedula) == false);
-		system("cls");
-		
-		do{
-			
-			MostrarAutosEstado("disponible");
-			cout << "Ingrese la matricula del auto: ";
-			cin >> AutoMatricula;
-			if (AutoDisponible(AutoMatricula)==false)
-			{
-				cout << "Auto no disponible" << endl;
-				cout <<endl;
-			}
-		} while (AutoDisponible(AutoMatricula) == false);
-		
-		system("cls");
-	
-		dataAlquiler.CodigoAlquiler = idAlquiler();
-
-		cout<<"Fecha de alquiler: ";
-		cin >> dataAlquiler.FechaAlquiler;
-		dataAlquiler.Estado = "Activo";
-
-		AutoEstado(dataAlquiler.CodigoAlquiler);
-
-		archivoAquiler << dataAlquiler.CodigoAlquiler << " " << cedula << " " << dataAlquiler.FechaAlquiler << " " << dataAlquiler.Estado << endl;
-		archivoAquiler<<" "<<endl;
-	
-		archivoAquiler.close();
-
-	}
-	catch (const std::exception &e)
-	{
-		std::cerr << e.what() << '\n';
+		cout << "No hay clientes registrados" << endl;
 	}
 
-	system("pause");
+	while (!buscar.eof())
+	{
+		if (dataCliente.Cedula == cedula)
+		{
+			encontrado = true;
+			break;
+		}
+		buscar >> dataCliente.CodigoCliente;
+		buscar >> dataCliente.Cedula;
+		buscar >> dataCliente.Nombre;
+		buscar >> dataCliente.Apellido;
+		buscar >> dataCliente.Direccion;
+		buscar >> dataCliente.Telefono;
+		buscar >> dataCliente.FechaNacimiento;
+
+	}
+	buscar.close();
+	return encontrado;
+}*/
 
 
-	
-}
