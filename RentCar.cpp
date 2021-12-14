@@ -236,13 +236,9 @@ void menu_alquileres()
 		else if (tecla == 13)
 		{
         	if(opcionSeleccionada == 1){
-<<<<<<< HEAD
-            	registrarAlquiler();
-            	break;
-=======
+
             	system("cls");
             	AlquilerRegistrar();
->>>>>>> 6b50279f92b47775f0ac1d587ab71282187fb514
         	}
         
 			else if(opcionSeleccionada == 2){
