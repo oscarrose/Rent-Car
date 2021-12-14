@@ -25,19 +25,15 @@ struct Alquiler
 {
 	int CodigoAlquiler;
 	string CedulaCliente;
+	string MatriculaVehiculo;
 	string FechaAlquiler;
+	int DiasAlquiler;
+	float PrecioPorDia;
+	float Monto;
+	int DiasAtraso;
 	string Estado;
 };
 
-struct DetalleAlquiler
-{
-	int CodigoDetalle;
-	int CodigoAlquiler;
-	string MatriculaVehiculo;
-	float PrecioPorDia;
-	int DiasAlquiler;
-	int DiasAtraso;
-};
 
 struct Autos
 {
@@ -65,9 +61,7 @@ bool validarCedula(string cedula);
 int incrementoCodigoCliente();
 void registrarClientes();
 bool AutoDisponible(int id);
-bool ValidarCliente(string cedula);
 int idAlquiler();
-void registrarAlquiler();
 void AlquilerRegistrar();
 
 
@@ -177,11 +171,17 @@ void AlquilerRegistrar()
 
 		cout<<"Fecha de alquiler: ";
 		cin >> dataAlquiler.FechaAlquiler;
+		cout<< "Dias de alquiler: ";
+		cin >> dataAlquiler.DiasAlquiler;
+		cout<<"Precio por dia: ";
+		cin >> dataAlquiler.PrecioPorDia;
+		dataAlquiler.Monto = (dataAlquiler.PrecioPorDia * dataAlquiler.DiasAlquiler);
 		dataAlquiler.Estado = "Activo";
+		dataAlquiler.DiasAtraso = 0;
 
 		AutoEstado(dataAlquiler.CodigoAlquiler);
 
-		archivoAquiler << dataAlquiler.CodigoAlquiler << " " << cedula << " " << dataAlquiler.FechaAlquiler << " " << dataAlquiler.Estado << endl;
+		archivoAquiler << dataAlquiler.CodigoAlquiler << " " << cedula << " " << dataAlquiler.FechaAlquiler << " " << dataAlquiler.DiasAlquiler << " " << dataAlquiler.PrecioPorDia << " " << dataAlquiler.Monto << " " << dataAlquiler.DiasAtraso << " " << dataAlquiler.Estado << endl;  
 		archivoAquiler<<" "<<endl;
 	
 		archivoAquiler.close();
